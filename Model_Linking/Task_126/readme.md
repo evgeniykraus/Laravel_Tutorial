@@ -12,7 +12,7 @@
     {
         public function show($id)
         {
-            $user = User::query()->whereId($id)->first();
+            $user = User::find($id);
             return view('user.show', [
                 'profile' => $user->profile,
                 'user' => $user,

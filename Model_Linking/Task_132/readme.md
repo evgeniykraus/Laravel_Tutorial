@@ -22,7 +22,7 @@
     {
         public function show()
         {
-            $city = City::query()->find(3);
+            $city = City::find(3);
 
             dump($city);
             dump($city->country);
@@ -51,9 +51,11 @@
 
     class CityController extends Controller
     {
-        public function show()
-        {
-            $cities = City::all()->where('population', '>', 100000);
+    public function show()
+    {
+    $cities = City::with('country')
+    ->where('population', '>', 100000)
+    ->get();
     
             foreach ($cities as $city) {
                 dump("Город: $city->name | Население: $city->population | Страна: {$city->country->name}");
