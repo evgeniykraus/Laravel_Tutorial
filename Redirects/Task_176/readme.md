@@ -15,13 +15,13 @@
     <form action="{{ route('users.store') }}" method="post">
         @csrf
         <label>Name:
-            <input type="text" name="name">
+            <input type="text" name="name" value="{{ old('name') }}">
         </label>
         <label>Surname:
-            <input type="text" name="surname">
+            <input type="text" name="surname" value="{{ old('surname') }}">
         </label>
         <label>Email
-            <input type="text" name="email">
+            <input type="text" name="email" value="{{ old('email') }}">
         </label>
         <input type="submit" value="Добавить">
     </form>
@@ -46,13 +46,15 @@
             return view('user.index', ['users' => $users]);
         }
     
-        public function create()
+        public function create(Request $request)
         {
             return view('user.create');
         }
     
         public function store(Request $request)
         {
+            $request->flashOnly(['name', 'surname', 'email']);
+    
             $request->validate([
                 'name' => 'required',
                 'surname' => 'required',
@@ -61,9 +63,9 @@
     
             User::create($request->all());
     
-            return redirect()->route('users.index');
+            return redirect()->route('users.index')->with('success', 'Пользователь успешно добавлен!');
         }
-    }   
+    } 
 
 Роуты:
 
